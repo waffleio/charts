@@ -136,14 +136,15 @@ The following tables lists the configurable parameters of the Jaeger chart and t
 |             Parameter                    |            Description              |                  Default               |
 |------------------------------------------|-------------------------------------|----------------------------------------|
 | `agent.annotationsPod`                   | Annotations for Agent               |  nil                                   |
-| `agent.annotationsSvc`                   | Annotations for Agent SVC           |  nil                                   |
-| `agent.binaryPort`                       | jaeger.thrift over binary thrift    |  6832                                  |
+| `agent.service.annotations`              | Annotations for Agent SVC           |  nil                                   |
+| `agent.service.binaryPort`               | jaeger.thrift over binary thrift    |  6832                                  |
 | `agent.cmdlineParams`                    | Additional command line parameters  |  nil                                   |
-| `agent.compactPort`                      | jaeger.thrift over compact thrift   |  6831                                  |
+| `agent.service.compactPort`              | jaeger.thrift over compact thrift   |  6831                                  |
 | `agent.image`                            | Image for Jaeger Agent              |  jaegertracing/jaeger-agent            |
 | `agent.pullPolicy`                       | Agent image pullPolicy              |  IfNotPresent                          |
+| `agent.service.loadBalancerSourceRanges` | list of IP CIDRs allowed access to load balancer (if supported) | `[]`
 | `agent.tag`                              | Image tag/version                   |  0.6                                   |
-| `agent.zipkinThriftPort`                 | zipkin.thrift over compact thrift   |  5775                                  |
+| `agent.service.zipkinThriftPort`         | zipkin.thrift over compact thrift   |  5775                                  |
 | `cassandra.config.cluster_name`          | Cluster name                        |  jaeger                                |
 | `cassandra.config.dc_name`               | Datacenter name                     |  dc1                                   |
 | `cassandra.config.endpoint_snitch`       | Node discovery method               |  GossipingPropertyFileSnitch           |
@@ -152,32 +153,35 @@ The following tables lists the configurable parameters of the Jaeger chart and t
 | `cassandra.image.tag`                    | The image tag/version               |  3.11                                  |
 | `cassandra.persistence.enabled`          | To enable storage persistence       |  false (Highly recommended to enable)  |
 | `collector.annotationsPod`               | Annotations for Collector           |  nil                                   |
-| `collector.annotationsSvc`               | Annotations for Collector SVC       |  nil                                   |
+| `collector.service.annotations`          | Annotations for Collector SVC       |  nil                                   |
 | `collector.cmdlineParams`                | Additional command line parameters  |  nil                                   |
-| `collector.httpPort`                     | Client port for HTTP thrift         |  14268                                 |
+| `collector.service.httpPort`             | Client port for HTTP thrift         |  14268                                 |
 | `collector.image`                        | Image for jaeger collector          |  jaegertracing/jaeger-collector        |
 | `collector.pullPolicy`                   | Collector image pullPolicy          |  IfNotPresent                          |
 | `collector.tag`                          | Image tag/version                   |  0.6                                   |
-| `collector.tchannelPort`                 | Jaeger Agent port for thrift        |  14267                                 |
-| `collector.type`                         | Service type                        |  ClusterIP                             |
-| `collector.zipkinPort`                   | Zipkin port for JSON/thrift HTTP    |  9411                                  |
+| `collector.service.tchannelPort`         | Jaeger Agent port for thrift        |  14267                                 |
+| `collector.service.type`                 | Service type                        |  ClusterIP                             |
+| `collector.service.loadBalancerSourceRanges` | list of IP CIDRs allowed access to load balancer (if supported) | `[]`
+| `collector.service.zipkinPort`           | Zipkin port for JSON/thrift HTTP    |  9411                                  |
 | `elasticsearch.cluster.name`             | Elasticsearch cluster name          |  "tracing"                             |
 | `elasticsearch.data.persistance.enabled` | To enable storage persistence       |  false (Highly recommended to enable)  |
 | `elasticsearch.image.tag`                | Elasticsearch image tag             |  "5.4"                                 |
 | `elasticsearch.rbac.create`              | To enable RBAC                      |  false                                 |
 | `hotrod.enabled`                         | Enables the Hotrod demo app         |  false                                 |
+| `hotrod.service.loadBalancerSourceRanges` | list of IP CIDRs allowed access to load balancer (if supported) | `[]`
 | `provisionDataStore.cassandra`           | Provision Cassandra Data Store      |  true                                  |
 | `provisionDataStore.elasticsearch`       | Provision Elasticsearch Data Store  |  false                                 |
 | `query.annotationsPod`                   | Annotations for Query UI            |  nil                                   |
-| `query.annotationsSvc`                   | Annotations for Query SVC           |  nil                                   |
+| `query.service.annotations`                   | Annotations for Query SVC           |  nil                                   |
 | `query.cmdlineParams`                    | Additional command line parameters  |  nil                                   |
 | `query.image`                            | Image for Jaeger Query UI           |  jaegertracing/jaeger-query            |
 | `query.ingress.enabled`                  | Allow external traffic access       |  false                                 |
 | `query.pullPolicy`                       | Query UI image pullPolicy           |  IfNotPresent                          |
-| `query.queryPort`                        | External accessible port            |  80                                    |
+| `query.service.queryPort`                | External accessible port            |  80                                    |
 | `query.tag`                              | Image tag/version                   |  0.6                                   |
-| `query.targetPort`                       | Internal Query UI port              |  16686                                 |
-| `query.type`                             | Service type                        |  ClusterIP                             |
+| `query.service.targetPort`               | Internal Query UI port              |  16686                                 |
+| `query.service.type`                     | Service type                        |  ClusterIP                             |
+| `query.service.loadBalancerSourceRanges` | list of IP CIDRs allowed access to load balancer (if supported) | `[]`
 | `schema.annotations`                     | Annotations for the schema job      |  nil                                   |
 | `schema.image`                           | Image to setup cassandra schema     |  jaegertracing/jaeger-cassandra-schema |
 | `schema.mode`                            | Schema mode (prod or test)          |  prod                                  |
@@ -198,7 +202,6 @@ The following tables lists the configurable parameters of the Jaeger chart and t
 | `storage.elasticsearch.scheme`           | Provisioned elasticsearch scheme    |  http                                  |
 | `storage.elasticsearch.user`             | Provisioned elasticsearch user      |  elastic                               |
 | `storage.type`                           | Storage type (ES or Cassandra)      |  cassandra                             |
-|------------------------------------------|-------------------------------------|----------------------------------------|
 
 For more information about some of the tunable parameters that Cassandra provides, please visit the helm chart for [cassandra](https://github.com/kubernetes/charts/tree/master/incubator/cassandra) and the official [website](http://cassandra.apache.org/) at apache.org.
 
